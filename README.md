@@ -1,1 +1,138 @@
-# Pit-Security-System
+#<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Pit Security System</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+<style>
+* { box-sizing: border-box; font-family: "Segoe UI", Arial; }
+
+body {
+  margin: 0;
+  background: radial-gradient(circle at top, #0f2027, #000);
+  color: white;
+}
+
+/* HEADER */
+header {
+  padding: 50px 20px;
+  text-align: center;
+  background: linear-gradient(135deg, #ff002b, #1a1a1a);
+  box-shadow: 0 10px 40px rgba(0,0,0,.7);
+}
+
+header h1 {
+  font-size: 4em;
+  letter-spacing: 3px;
+  text-shadow: 0 0 30px rgba(255,0,43,.9);
+}
+
+header p {
+  color: #ccc;
+  margin-top: 10px;
+}
+
+/* MAIN */
+main {
+  max-width: 1200px;
+  margin: auto;
+  padding: 50px 30px;
+  text-align: center;
+}
+
+button {
+  padding: 18px 40px;
+  font-size: 20px;
+  background: linear-gradient(135deg, #00ffff, #0077ff);
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  box-shadow: 0 0 30px rgba(0,255,255,.6);
+}
+
+.qrs {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  margin-top: 50px;
+  flex-wrap: wrap;
+}
+
+.qrbox {
+  background: linear-gradient(145deg, #0d0d0d, #1a1a1a);
+  padding: 25px;
+  border-radius: 20px;
+  box-shadow: 0 0 35px rgba(255,0,43,.3);
+}
+
+.qrbox p {
+  margin: 10px 0 0;
+  font-size: 1.2em;
+  color: #00ffff;
+}
+
+.qrbox small {
+  color: #aaa;
+}
+
+/* FOOTER */
+footer {
+  text-align: center;
+  padding: 25px;
+  color: #666;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>PIT SECURITY SYSTEM</h1>
+  <p>Party Access • Payment Proof • QR Check</p>
+</header>
+
+<main>
+  <button onclick="generate()">GENERATE NEW PARTY QR CODES</button>
+
+  <div class="qrs" id="qrs"></div>
+</main>
+
+<footer>
+  Scan & Check-in via check.html
+</footer>
+
+<script>
+function randomID() {
+  return Math.random().toString(36).substring(2,8).toUpperCase();
+}
+
+function generate() {
+  const types = ["1 Person", "CREW", "FAMILY"];
+  document.getElementById("qrs").innerHTML = "";
+
+  types.forEach(type => {
+    const id = "PIT-" + randomID();
+    const box = document.createElement("div");
+    box.className = "qrbox";
+
+    const qrDiv = document.createElement("div");
+    new QRCode(qrDiv, {
+      text: `TYPE:${type};ID:${id}`,
+      width: 200,
+      height: 200,
+      colorDark: "#ffffff",
+      colorLight: "#000000"
+    });
+
+    box.appendChild(qrDiv);
+    box.innerHTML += `<p>${type}</p>`;
+    box.innerHTML += `<small>${id}</small>`;
+    document.getElementById("qrs").appendChild(box);
+  });
+}
+</script>
+
+</body>
+</html>
+ Pit-Security-System
