@@ -1,172 +1,61 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <title>PIT SECURITY CHECK</title>
-
 <style>
-* { box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
-
-body {
-  margin: 0;
-  background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
-  color: white;
-}
-
-header {
-  text-align: center;
-  padding: 40px 20px;
-  background: linear-gradient(135deg, #00ffff, #ff00ff);
-  box-shadow: 0 5px 25px rgba(0,0,0,.5);
-}
-
-header h1 {
-  font-size: 3em;
-  text-shadow: 0 0 20px #00ffff;
-}
-
-header p {
-  color: #ccc;
-  margin-top: 5px;
-}
-
-main {
-  max-width: 1000px;
-  margin: auto;
-  padding: 40px 20px;
-}
-
-input, textarea {
-  width: 100%;
-  padding: 15px;
-  margin: 8px 0;
-  border-radius: 10px;
-  border: none;
-  font-size: 1em;
-}
-
-button {
-  padding: 15px 30px;
-  font-size: 16px;
-  border-radius: 12px;
-  border: none;
-  background: linear-gradient(135deg, #ff00ff, #00ffff);
-  color: #000;
-  font-weight: bold;
-  cursor: pointer;
-  margin-top: 10px;
-  transition: transform .3s, box-shadow .3s;
-}
-
-button:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 25px #00ffff;
-}
-
-.entry {
-  background: #111;
-  padding: 15px;
-  border-left: 6px solid #ff00ff;
-  margin-bottom: 12px;
-  border-radius: 10px;
-  position: relative;
-}
-
-.entry textarea {
-  margin-top: 10px;
-  resize: vertical;
-}
-
-.entry .done {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  cursor: pointer;
-  background: #00ff00;
-  color: #000;
-  padding: 5px 10px;
-  border-radius: 6px;
-  font-weight: bold;
-}
+body{margin:0; font-family:'Segoe UI'; background:linear-gradient(135deg,#0f0c29,#302b63,#24243e); color:white;}
+header{text-align:center;padding:30px; background:linear-gradient(135deg,#00ffff,#ff00ff);}
+header h1{font-size:2.5em; text-shadow:0 0 20px #00ffff;}
+main{max-width:900px;margin:auto;padding:30px;}
+input, textarea{width:100%; padding:12px; margin:8px 0; border-radius:10px; border:none;}
+.entry{background:#111; padding:15px; margin-bottom:10px; border-left:6px solid #00ff00; border-radius:8px; position:relative;}
+.entry textarea{margin-top:10px; resize:vertical;}
+.entry .done{position:absolute; top:10px; right:10px; cursor:pointer; background:#00ff00; color:#000; padding:5px 10px; border-radius:6px;}
+button{padding:10px 20px; border:none; border-radius:8px; background:#ff00ff; color:#fff; cursor:pointer;}
 </style>
 </head>
 <body>
-
-<header>
-  <h1>PIT SECURITY CHECK</h1>
-  <p>Scan QR or enter code manually</p>
-</header>
-
+<header><h1>PIT SECURITY CHECK</h1></header>
 <main>
-  <input id="qrInput" placeholder="TYPE:1 Person;ID:PIT-XXXXXX" onkeydown="if(event.key==='Enter'){addEntry(this.value); this.value='';}">
-
-  <div id="list"></div>
-</main>
-
+<input id="qrInput" placeholder="Code eingeben oder QR scannen" onkeydown="if(event.key==='Enter'){addEntry(this.value); this.value='';}">
+<div id="list"></div>
 <script>
-// Lade alle Einträge aus localStorage beim Start
-function loadEntries() {
-  for (let i=0; i<localStorage.length; i++) {
-    const key = localStorage.key(i);
-    if(key.startsWith("PIT-")) addEntry(key, true);
-  }
-}
-
-// Eintrag hinzufügen
-function addEntry(value, fromStorage=false) {
-  let type = "UNKNOWN";
-  let id = value;
-
-  if(value.includes("TYPE:")) {
-    const match = value.match(/TYPE:(.+?);ID:(.+)/);
-    if(match) {
-      type = match[1];
-      id = match[2];
+function addEntry(value,fromStorage=false){
+    let type="UNKNOWN";
+    let id=value;
+    if(value.includes("code=")){
+        id=value.split("code=")[1];
     }
-  }
-
-  // Prüfen, ob Eintrag schon existiert
-  if(document.getElementById(id)) return;
-
-  const list = document.getElementById("list");
-  const div = document.createElement("div");
-  div.className = "entry";
-  div.id = id;
-
-  div.innerHTML = `<strong>${type} - ${id}</strong>
-                   <textarea placeholder="Notes..." id="ta-${id}"></textarea>
-                   <div class="done" onclick="toggleDone('${id}')">✓</div>`;
-
-  list.appendChild(div);
-
-  const ta = document.getElementById("ta-" + id);
-  if(fromStorage) ta.value = localStorage.getItem(id) || "";
-  ta.addEventListener("input", ()=> {
-    localStorage.setItem(id, ta.value);
-  });
-
-  // Optional: Markierung speichern
-  if(localStorage.getItem(id+"-done") === "true") {
-    div.classList.add("checked");
-  }
+    if(document.getElementById(id)) return;
+    const list=document.getElementById("list");
+    const div=document.createElement("div");
+    div.className="entry"; div.id=id;
+    div.innerHTML=`<strong>${id}</strong><textarea id="ta-${id}" placeholder="Notes..."></textarea><div class="done" onclick="toggleDone('${id}')">✓</div>`;
+    list.appendChild(div);
+    const ta=document.getElementById("ta-"+id);
+    if(fromStorage) ta.value=localStorage.getItem(id)||"";
+    else ta.value=localStorage.getItem(id)||"";
+    ta.addEventListener("input",()=>{localStorage.setItem(id,ta.value);});
+    if(localStorage.getItem(id+"-done")==="true") div.classList.add("checked");
 }
-
-// Haken toggeln
 function toggleDone(id){
-  const div = document.getElementById(id);
-  if(div.classList.contains("checked")) {
-    div.classList.remove("checked");
-    localStorage.setItem(id+"-done","false");
-  } else {
-    div.classList.add("checked");
-    localStorage.setItem(id+"-done","true");
-  }
+    const div=document.getElementById(id);
+    if(div.classList.contains("checked")){
+        div.classList.remove("checked"); localStorage.setItem(id+"-done","false");
+    } else {
+        div.classList.add("checked"); localStorage.setItem(id+"-done","true");
+    }
 }
-
-// Beim Laden alle Einträge aus Storage laden
-window.onload = loadEntries;
-
+// URL Parameter beim Laden auslesen
+window.onload=function(){
+    const params=new URLSearchParams(window.location.search);
+    const code=params.get('code');
+    if(code) addEntry("code="+code,true);
+}
 </script>
+</main>
 </body>
 </html>
 
