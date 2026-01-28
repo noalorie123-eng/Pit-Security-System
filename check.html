@@ -1,61 +1,35 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <title>PIT SECURITY CHECK</title>
 <style>
-body{margin:0; font-family:'Segoe UI'; background:linear-gradient(135deg,#0f0c29,#302b63,#24243e); color:white;}
-header{text-align:center;padding:30px; background:linear-gradient(135deg,#00ffff,#ff00ff);}
-header h1{font-size:2.5em; text-shadow:0 0 20px #00ffff;}
-main{max-width:900px;margin:auto;padding:30px;}
-input, textarea{width:100%; padding:12px; margin:8px 0; border-radius:10px; border:none;}
-.entry{background:#111; padding:15px; margin-bottom:10px; border-left:6px solid #00ff00; border-radius:8px; position:relative;}
-.entry textarea{margin-top:10px; resize:vertical;}
-.entry .done{position:absolute; top:10px; right:10px; cursor:pointer; background:#00ff00; color:#000; padding:5px 10px; border-radius:6px;}
-button{padding:10px 20px; border:none; border-radius:8px; background:#ff00ff; color:#fff; cursor:pointer;}
+body{margin:0; font-family:sans-serif; background:#111; color:#fff; text-align:center;}
+textarea{width:90%; height:150px; margin:20px auto; display:block; border-radius:10px; padding:10px;}
+h1{padding:30px; background:#222; color:#0f0; text-shadow:0 0 10px #0f0;}
 </style>
 </head>
 <body>
-<header><h1>PIT SECURITY CHECK</h1></header>
-<main>
-<input id="qrInput" placeholder="Code eingeben oder QR scannen" onkeydown="if(event.key==='Enter'){addEntry(this.value); this.value='';}">
-<div id="list"></div>
+<h1>PIT SECURITY CHECK</h1>
+<p>Schreibe hier deine Notizen rein:</p>
+<textarea id="note" placeholder="Dein Text..."></textarea>
+
 <script>
-function addEntry(value,fromStorage=false){
-    let type="UNKNOWN";
-    let id=value;
-    if(value.includes("code=")){
-        id=value.split("code=")[1];
-    }
-    if(document.getElementById(id)) return;
-    const list=document.getElementById("list");
-    const div=document.createElement("div");
-    div.className="entry"; div.id=id;
-    div.innerHTML=`<strong>${id}</strong><textarea id="ta-${id}" placeholder="Notes..."></textarea><div class="done" onclick="toggleDone('${id}')">✓</div>`;
-    list.appendChild(div);
-    const ta=document.getElementById("ta-"+id);
-    if(fromStorage) ta.value=localStorage.getItem(id)||"";
-    else ta.value=localStorage.getItem(id)||"";
-    ta.addEventListener("input",()=>{localStorage.setItem(id,ta.value);});
-    if(localStorage.getItem(id+"-done")==="true") div.classList.add("checked");
-}
-function toggleDone(id){
-    const div=document.getElementById(id);
-    if(div.classList.contains("checked")){
-        div.classList.remove("checked"); localStorage.setItem(id+"-done","false");
-    } else {
-        div.classList.add("checked"); localStorage.setItem(id+"-done","true");
-    }
-}
-// URL Parameter beim Laden auslesen
-window.onload=function(){
-    const params=new URLSearchParams(window.location.search);
-    const code=params.get('code');
-    if(code) addEntry("code="+code,true);
+// URL ?code=ID auslesen
+const params = new URLSearchParams(window.location.search);
+const code = params.get('code');
+
+if(code){
+  const ta = document.getElementById('note');
+  // Text aus LocalStorage laden, falls vorhanden
+  ta.value = localStorage.getItem(code) || "";
+  // Änderungen speichern
+  ta.addEventListener('input', ()=>{ localStorage.setItem(code, ta.value); });
+}else{
+  alert("Kein QR-Code erkannt!");
 }
 </script>
-</main>
 </body>
 </html>
+
 
