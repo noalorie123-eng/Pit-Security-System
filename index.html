@@ -1,26 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>PIT SECURITY SYSTEM</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+<style>
+* { box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+
+body {
+  margin: 0;
+  background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+  color: white;
+}
+
+header {
+  text-align: center;
+  padding: 50px 20px;
+  background: linear-gradient(135deg, #ff0055, #ffcc00);
+  box-shadow: 0 10px 30px rgba(0,0,0,.6);
+}
+
+header h1 {
+  font-size: 4em;
+  color: #fff;
+  text-shadow: 0 0 30px #ff00ff;
+}
+
+header p {
+  font-size: 1.2em;
+  color: #ccc;
+}
+
+main {
+  max-width: 1200px;
+  margin: auto;
+  padding: 40px 20px;
+  text-align: center;
+}
+
+button {
+  padding: 20px 50px;
+  font-size: 20px;
+  font-weight: bold;
+  border: none;
+  border-radius: 15px;
+  background: linear-gradient(135deg, #00ffff, #ff00ff);
+  color: #000;
+  cursor: pointer;
+  box-shadow: 0 0 25px rgba(0,255,255,.5);
+  margin-bottom: 40px;
+  transition: transform .3s, box-shadow .3s;
+}
+
+button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 40px rgba(255,0,255,.7);
+}
+
+.qrs {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+
+.qrbox {
+  background: linear-gradient(145deg, #111, #222);
+  padding: 25px;
+  border-radius: 20px;
+  box-shadow: 0 0 30px rgba(255,0,255,.3);
+  position: relative;
+  width: 220px;
+}
+
+.qrbox p {
+  margin: 10px 0 0;
+  font-size: 1.2em;
+  color: #00ffff;
+}
+
+.qrbox small {
+  color: #aaa;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.qrbox textarea {
+  width: 100%;
+  margin-top: 10px;
+  padding: 8px;
+  border-radius: 8px;
+  border: none;
+  resize: vertical;
+  font-size: 0.9em;
+}
+
+</style>
+</head>
+<body>
+
+<header>
+  <h1>PIT SECURITY SYSTEM</h1>
+  <p>Party QR Generator & Persistent Notes</p>
+</header>
+
+<main>
+  <button onclick="generate()">GENERATE NEW QR CODES</button>
+  <div class="qrs" id="qrs"></div>
+</main>
+
 <script>
+const types = ["1 Person","CREW","FAMILY"];
+
+// Funktion zum Generieren einer zufälligen ID
 function randomID() {
   return Math.random().toString(36).substring(2,8).toUpperCase();
 }
 
+// QR-Codes generieren
 function generate() {
-  const types = ["1 Person", "CREW", "FAMILY"];
   const container = document.getElementById("qrs");
-
-  container.innerHTML = ""; // alte QR-Codes löschen
+  container.innerHTML = ""; // alte löschen
 
   types.forEach(type => {
     const id = "PIT-" + randomID();
-    
-    // Container für QR + Text
     const box = document.createElement("div");
     box.className = "qrbox";
 
-    // QR-Code Div erstellen
+    // QR-Code Div
     const qrDiv = document.createElement("div");
-    box.appendChild(qrDiv); // erst hier hinzufügen
+    box.appendChild(qrDiv);
 
-    // QR-Code erzeugen
+    // QR erzeugen
     new QRCode(qrDiv, {
       text: `TYPE:${type};ID:${id}`,
       width: 200,
@@ -29,17 +141,31 @@ function generate() {
       colorLight: "#000000"
     });
 
-    // Text unter QR-Code
+    // Type und ID
     const typeText = document.createElement("p");
-    typeText.innerHTML = type;
+    typeText.innerText = type;
     box.appendChild(typeText);
 
     const idText = document.createElement("small");
-    idText.innerHTML = id;
+    idText.innerText = id;
     box.appendChild(idText);
+
+    // Persistent Textarea (LocalStorage)
+    const ta = document.createElement("textarea");
+    ta.placeholder = "Notes for this QR...";
+    const storageKey = id; // eindeutiger Schlüssel
+    ta.value = localStorage.getItem(storageKey) || "";
+    ta.addEventListener("input", ()=> {
+      localStorage.setItem(storageKey, ta.value);
+    });
+    box.appendChild(ta);
 
     container.appendChild(box);
   });
 }
 </script>
+
+</body>
+</html>
+
 
