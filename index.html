@@ -1,21 +1,91 @@
 <!DOCTYPE html>
-<html>
+<html lang="de">
 <head>
 <meta charset="UTF-8">
-<title>TEST</title>
+<title>Pit Security System</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, #0a001a, #1a0033);
+  color: white;
+  text-align: center;
+}
+
+h1 {
+  margin: 30px 0;
+  font-size: 3em;
+  background: linear-gradient(90deg, #ff00cc, #00ccff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+button {
+  padding: 15px 30px;
+  font-size: 18px;
+  border: none;
+  border-radius: 30px;
+  background: linear-gradient(90deg, #ff00cc, #ff6600);
+  color: white;
+  cursor: pointer;
+}
+
+.qrs {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin: 40px;
+  flex-wrap: wrap;
+}
+
+.box {
+  background: #111;
+  padding: 20px;
+  border-radius: 20px;
+}
+
+.box img {
+  width: 200px;
+  height: 200px;
+  background: white;
+  padding: 5px;
+}
+</style>
 </head>
+
 <body>
 
-<h1>JS TEST</h1>
+<h1>Pit Security System</h1>
 
-<button onclick="test()">KLICK MICH</button>
+<button onclick="generate()">QR Codes generieren</button>
 
-<div id="out"></div>
+<div class="qrs" id="qrs"></div>
 
 <script>
-function test() {
-  document.getElementById("out").innerHTML =
-    "<img src='https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=HELLO'>";
+function generate() {
+  const qrs = document.getElementById("qrs");
+  qrs.innerHTML = "";
+
+  const base =
+    window.location.origin +
+    window.location.pathname.replace("index.html","") +
+    "check.html";
+
+  ["1 Person", "CREW", "Family"].forEach(label => {
+    const id = Date.now() + Math.random();
+    const link = base + "?id=" + id;
+
+    const div = document.createElement("div");
+    div.className = "box";
+
+    div.innerHTML = `
+      <p>${label}</p>
+      <img src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(link)}">
+    `;
+
+    qrs.appendChild(div);
+  });
 }
 </script>
 
