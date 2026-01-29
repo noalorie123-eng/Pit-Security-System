@@ -4,37 +4,89 @@
 <meta charset="UTF-8">
 <title>Pit Security System</title>
 <style>
-body { margin:0; font-family:Arial; text-align:center; background: linear-gradient(135deg,#0a001a,#1a0033); color:white; }
-h1 { font-size:3em; margin:30px 0; background: linear-gradient(90deg,#ff00cc,#00ccff); -webkit-background-clip:text; -webkit-text-fill-color:transparent;}
-button {padding:15px 30px; font-size:18px; border:none; border-radius:30px; background: linear-gradient(90deg,#ff00cc,#ff6600); color:white; cursor:pointer;}
-.qrs {display:flex; justify-content:center; gap:30px; margin:40px; flex-wrap:wrap;}
-.box {background:#111; padding:20px; border-radius:20px;}
-.box img {width:200px; height:200px; border-radius:10px; padding:5px; background:white;}
-.box p {margin:10px 0; font-weight:bold; font-size:18px;}
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, #0a001a, #1a0033);
+  color: white;
+  text-align: center;
+}
+
+h1 {
+  margin: 30px 0;
+  font-size: 3.5em;
+  background: linear-gradient(90deg, #ff00cc, #00ccff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+button {
+  padding: 15px 30px;
+  font-size: 18px;
+  border: none;
+  border-radius: 30px;
+  background: linear-gradient(90deg, #ff00cc, #ff6600);
+  color: white;
+  cursor: pointer;
+}
+
+.qrs {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin: 40px;
+  flex-wrap: wrap;
+}
+
+.box {
+  background: #111;
+  padding: 20px;
+  border-radius: 20px;
+}
+
+.box img {
+  width: 200px;
+  height: 200px;
+  background: white;
+  padding: 5px;
+  border-radius: 10px;
+}
+
+.box p {
+  margin: 10px 0;
+  font-weight: bold;
+  font-size: 18px;
+}
 </style>
 </head>
 <body>
 
 <h1>Pit Security System</h1>
+
 <button onclick="generateQRs()">QR Codes generieren</button>
+
 <div class="qrs" id="qrs"></div>
 
 <script>
-function generateQRs(){
+function generateQRs() {
   const container = document.getElementById("qrs");
   container.innerHTML = "";
+
   const base = window.location.origin + window.location.pathname.replace("index.html","") + "check.html";
   const labels = [
     {name:"1 Person", id:"person"},
     {name:"CREW", id:"crew"},
     {name:"Family", id:"family"}
   ];
-  labels.forEach(label=>{
+
+  labels.forEach(label => {
     const url = base + "?id=" + label.id;
+
     const div = document.createElement("div");
-    div.className="box";
-    div.innerHTML=`<p>${label.name}</p>
+    div.className = "box";
+    div.innerHTML = `<p>${label.name}</p>
       <img src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(url)}">`;
+
     container.appendChild(div);
   });
 }
@@ -42,6 +94,7 @@ function generateQRs(){
 
 </body>
 </html>
+
 
 
 
