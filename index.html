@@ -2,98 +2,98 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<title>Pit Security System</title>
+<title>Noas Beam Hub</title>
 <style>
 body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: linear-gradient(135deg, #0a001a, #1a0033);
-  color: white;
-  text-align: center;
+  margin:0;
+  padding:20px;
+  font-family:'Arial', sans-serif;
+  background: linear-gradient(135deg,#1a001a,#330033);
+  color:white;
 }
-
 h1 {
-  margin: 30px 0;
-  font-size: 3.5em;
-  background: linear-gradient(90deg, #ff00cc, #00ccff);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  text-align:center;
+  font-size:3em;
+  background: linear-gradient(90deg,#ff00cc,#00ccff);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  margin-bottom:30px;
+  text-shadow:0 0 15px #ff00cc;
 }
-
 button {
-  padding: 15px 30px;
-  font-size: 18px;
-  border: none;
-  border-radius: 30px;
-  background: linear-gradient(90deg, #ff00cc, #ff6600);
-  color: white;
-  cursor: pointer;
+  display:block;
+  margin:0 auto 30px;
+  padding:15px 30px;
+  font-size:20px;
+  border:none;
+  border-radius:15px;
+  background: linear-gradient(90deg,#ff0080,#00ffff);
+  color:white;
+  cursor:pointer;
+  box-shadow:0 0 20px #ff0080;
 }
-
-.qrs {
-  display: flex;
-  justify-content: center;
-  gap: 30px;
-  margin: 40px;
-  flex-wrap: wrap;
+button:hover {
+  box-shadow:0 0 30px #00ffff;
 }
-
-.box {
-  background: #111;
-  padding: 20px;
-  border-radius: 20px;
+.qr-container {
+  display:flex;
+  justify-content:space-around;
+  margin-top:20px;
 }
-
-.box img {
-  width: 200px;
-  height: 200px;
-  background: white;
-  padding: 5px;
-  border-radius: 10px;
+.qr-box {
+  background:rgba(255,255,255,0.1);
+  padding:15px;
+  border-radius:15px;
+  text-align:center;
+  width:200px;
+  box-shadow:0 0 15px #ff00cc;
 }
-
-.box p {
-  margin: 10px 0;
-  font-weight: bold;
-  font-size: 18px;
+.qr-box p {
+  margin-top:10px;
+  font-size:18px;
+  color:#fff;
 }
 </style>
+<script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
 </head>
 <body>
 
-<h1>Pit Security System</h1>
+<h1>Noas Beam Hub</h1>
 
-<button onclick="generateQRs()">QR Codes generieren</button>
+<button id="generateBtn">QR Codes generieren</button>
 
-<div class="qrs" id="qrs"></div>
+<div class="qr-container">
+  <div class="qr-box" id="qr1"><p>1 Person</p></div>
+  <div class="qr-box" id="qr2"><p>CREW</p></div>
+  <div class="qr-box" id="qr3"><p>Family</p></div>
+</div>
 
 <script>
-function generateQRs() {
-  const container = document.getElementById("qrs");
-  container.innerHTML = "";
+// 🔹 Absolute URL auf GitHub Pages eintragen
+const base = "https://DEINNAME.github.io/DEINREPO/check.html";
 
-const base = "https://noalorie123.github.io/Pit-Security-System/check.html";
-  const labels = [
-    {name:"1 Person", id:"person"},
-    {name:"CREW", id:"crew"},
-    {name:"Family", id:"family"}
-  ];
-
-  labels.forEach(label => {
-    const url = base + "?id=" + label.id;
-
-    const div = document.createElement("div");
-    div.className = "box";
-    div.innerHTML = `<p>${label.name}</p>
-      <img src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(url)}">`;
-
-    container.appendChild(div);
+function createQRCode(text,id){
+  QRCode.toCanvas(document.getElementById(id), text, {width:180}, function (error) {
+    if (error) console.error(error);
   });
 }
+
+document.getElementById("generateBtn").addEventListener("click", ()=>{
+  // QR-Container vorher leeren
+  document.getElementById("qr1").innerHTML = "<p>1 Person</p>";
+  document.getElementById("qr2").innerHTML = "<p>CREW</p>";
+  document.getElementById("qr3").innerHTML = "<p>Family</p>";
+
+  // Neue QR-Codes generieren
+  createQRCode(base+"?id=person","qr1");
+  createQRCode(base+"?id=crew","qr2");
+  createQRCode(base+"?id=family","qr3");
+});
 </script>
 
 </body>
 </html>
+
 
 
 
