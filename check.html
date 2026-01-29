@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <title>Pit Security Check</title>
-
 <style>
 body {
   margin: 0;
@@ -15,7 +14,7 @@ body {
 
 h2 {
   text-align: center;
-  font-size: 2.2em;
+  font-size: 2.5em;
   background: linear-gradient(90deg, #ff00cc, #00ccff);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -23,7 +22,7 @@ h2 {
 
 textarea {
   width: 100%;
-  height: 260px;
+  height: 180px;
   margin-top: 20px;
   font-size: 18px;
   border-radius: 15px;
@@ -31,46 +30,57 @@ textarea {
   border: none;
   outline: none;
 }
+
+label {
+  display: block;
+  margin-top: 20px;
+  font-size: 20px;
+}
+input[type=checkbox] {
+  transform: scale(1.5);
+  margin-right: 10px;
+}
 </style>
 </head>
-
 <body>
 
 <h2>Pit Security System</h2>
-<p>Der Text bleibt auf **diesem Handy** gespeichert.</p>
+<p>Text & „Bezahlt“-Status bleiben auf DEINEM Handy gespeichert.</p>
 
-<textarea id="note" placeholder="Name, bezahlt, Infos ..."></textarea>
+<textarea id="note" placeholder="Name, Infos ..."></textarea>
+
+<label><input type="checkbox" id="paid"> Bezahlt</label>
 
 <script>
-// 1️⃣ ID aus URL holen
+// 1️⃣ ID aus URL
 const params = new URLSearchParams(window.location.search);
-let id = params.get("id");
+let id = params.get("id") || "default";
 
-// 2️⃣ Wenn KEINE ID → eigene feste ID erzeugen
-if (!id) {
-  id = localStorage.getItem("pit_default_id");
-  if (!id) {
-    id = "pit_" + Date.now();
-    localStorage.setItem("pit_default_id", id);
-  }
-}
+// 2️⃣ Schlüssel für localStorage
+const textKey = "pit_text_" + id;
+const paidKey = "pit_paid_" + id;
 
-// 3️⃣ Speicher-Key
-const key = "pit_security_text_" + id;
-
+// 3️⃣ Elemente
 const textarea = document.getElementById("note");
+const checkbox = document.getElementById("paid");
 
-// 4️⃣ Gespeicherten Text laden
-textarea.value = localStorage.getItem(key) || "";
+// 4️⃣ Werte laden
+textarea.value = localStorage.getItem(textKey) || "";
+checkbox.checked = localStorage.getItem(paidKey) === "true";
 
-// 5️⃣ Beim Tippen speichern
+// 5️⃣ Änderungen speichern
 textarea.addEventListener("input", () => {
-  localStorage.setItem(key, textarea.value);
+  localStorage.setItem(textKey, textarea.value);
+});
+
+checkbox.addEventListener("change", () => {
+  localStorage.setItem(paidKey, checkbox.checked);
 });
 </script>
 
 </body>
 </html>
+
 
 
 
