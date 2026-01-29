@@ -2,7 +2,7 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<title>Pit Security System</title>
+<title>Pit Security Check</title>
 <style>
 body {margin:0; padding:30px; font-family:Arial; background: linear-gradient(135deg,#0a001a,#1a0033); color:white;}
 h2 {text-align:center; font-size:2.5em; background: linear-gradient(90deg,#ff00cc,#00ccff); -webkit-background-clip:text; -webkit-text-fill-color:transparent;}
@@ -10,12 +10,10 @@ textarea {width:100%; height:180px; margin-top:20px; font-size:18px; border-radi
 label {display:block; margin-top:20px; font-size:20px;}
 input[type=checkbox]{transform:scale(1.5); margin-right:10px;}
 </style>
-
 <!-- Firebase SDK -->
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 </head>
-
 <body>
 
 <h2>Pit Security System</h2>
@@ -25,7 +23,7 @@ input[type=checkbox]{transform:scale(1.5); margin-right:10px;}
 <label><input type="checkbox" id="paid"> Bezahlt</label>
 
 <script>
-// 🔹 1️⃣ Firebase Config - ERSETZE mit DEINEN Daten
+// 1️⃣ Firebase Config einfügen
 const firebaseConfig = {
   apiKey: "DEIN_API_KEY",
   authDomain: "DEIN_PROJECT_ID.firebaseapp.com",
@@ -36,22 +34,22 @@ const firebaseConfig = {
   appId: "1:1234567890:web:abcdefgh"
 };
 
-// 🔹 2️⃣ Firebase Init
+// 2️⃣ Firebase Init
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
-// 🔹 3️⃣ QR-ID aus URL
+// 3️⃣ QR-ID aus URL
 const params = new URLSearchParams(window.location.search);
 const id = params.get("id") || "default";
 
-// 🔹 4️⃣ Referenz in Firebase
+// 4️⃣ Referenz in DB
 const ref = db.ref("qrcodes/" + id);
 
-// 🔹 5️⃣ Elemente
+// 5️⃣ Elemente
 const textarea = document.getElementById("note");
 const checkbox = document.getElementById("paid");
 
-// 🔹 6️⃣ Lade vorhandene Daten
+// 6️⃣ Lade Daten aus Firebase
 ref.get().then(snapshot=>{
   if(snapshot.exists()){
     const data = snapshot.val();
@@ -60,7 +58,7 @@ ref.get().then(snapshot=>{
   }
 });
 
-// 🔹 7️⃣ Änderungen speichern
+// 7️⃣ Änderungen speichern
 textarea.addEventListener("input", ()=>{
   ref.update({text:textarea.value, paid:checkbox.checked});
 });
