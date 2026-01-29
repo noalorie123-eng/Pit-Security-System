@@ -54,7 +54,10 @@ button:hover {
   color:#fff;
 }
 </style>
+
+<!-- QRCode.js -->
 <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+
 </head>
 <body>
 
@@ -69,28 +72,31 @@ button:hover {
 </div>
 
 <script>
-// 🔹 Link auf check.html auf GitHub Pages (absolute URL!)
+// 🔹 Absolute Link zu deiner Text-Seite (check.html)
 const base = "https://DEINNAME.github.io/DEINREPO/check.html";
 
-function createQRCode(text,id){
-  QRCode.toCanvas(document.getElementById(id), text, {width:180}, function (error) {
-    if (error) console.error(error);
-  });
+function createQRCode(url, elementId){
+    QRCode.toCanvas(document.getElementById(elementId), url, {width:180}, function(error){
+        if(error) console.error(error);
+    });
 }
 
 document.getElementById("generateBtn").addEventListener("click", ()=>{
-  document.getElementById("qr1").innerHTML = "<p>1 Person</p>";
-  document.getElementById("qr2").innerHTML = "<p>CREW</p>";
-  document.getElementById("qr3").innerHTML = "<p>Family</p>";
+    // Container vorher leeren (Text beibehalten)
+    document.getElementById("qr1").innerHTML = "<p>1 Person</p>";
+    document.getElementById("qr2").innerHTML = "<p>CREW</p>";
+    document.getElementById("qr3").innerHTML = "<p>Family</p>";
 
-  createQRCode(base+"?id=person","qr1");
-  createQRCode(base+"?id=crew","qr2");
-  createQRCode(base+"?id=family","qr3");
+    // QR Codes generieren
+    createQRCode(base+"?id=person","qr1");
+    createQRCode(base+"?id=crew","qr2");
+    createQRCode(base+"?id=family","qr3");
 });
 </script>
 
 </body>
 </html>
+
 
 
 
