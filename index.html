@@ -2,7 +2,7 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<title>Noas Beam Hub</title>
+<title>Pit Security System</title>
 <style>
 body {
   margin:0;
@@ -58,7 +58,7 @@ button:hover {
 </head>
 <body>
 
-<h1>Noas Beam Hub</h1>
+<h1>Pit Security System</h1>
 
 <button id="generateBtn">QR Codes generieren</button>
 
@@ -69,7 +69,7 @@ button:hover {
 </div>
 
 <script>
-// 🔹 Absolute URL auf GitHub Pages eintragen
+// 🔹 Link auf check.html auf GitHub Pages (absolute URL!)
 const base = "https://DEINNAME.github.io/DEINREPO/check.html";
 
 function createQRCode(text,id){
@@ -79,12 +79,10 @@ function createQRCode(text,id){
 }
 
 document.getElementById("generateBtn").addEventListener("click", ()=>{
-  // QR-Container vorher leeren
   document.getElementById("qr1").innerHTML = "<p>1 Person</p>";
   document.getElementById("qr2").innerHTML = "<p>CREW</p>";
   document.getElementById("qr3").innerHTML = "<p>Family</p>";
 
-  // Neue QR-Codes generieren
   createQRCode(base+"?id=person","qr1");
   createQRCode(base+"?id=crew","qr2");
   createQRCode(base+"?id=family","qr3");
@@ -93,6 +91,7 @@ document.getElementById("generateBtn").addEventListener("click", ()=>{
 
 </body>
 </html>
+
 
 
 
