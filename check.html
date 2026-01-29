@@ -1,35 +1,36 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
-<title>PIT SECURITY CHECK</title>
+<title>PIT SECURITY</title>
 <style>
-body{margin:0; font-family:sans-serif; background:#111; color:#fff; text-align:center;}
-textarea{width:90%; height:150px; margin:20px auto; display:block; border-radius:10px; padding:10px;}
-h1{padding:30px; background:#222; color:#0f0; text-shadow:0 0 10px #0f0;}
+body{background:#111;color:white;font-family:sans-serif;text-align:center;}
+textarea{width:90%;height:200px;margin-top:20px;font-size:16px;}
 </style>
 </head>
 <body>
-<h1>PIT SECURITY CHECK</h1>
-<p>Schreibe hier deine Notizen rein:</p>
-<textarea id="note" placeholder="Dein Text..."></textarea>
+
+<h1>PIT SECURITY</h1>
+<p>Schreib hier rein – bleibt auf deinem Handy gespeichert</p>
+
+<textarea id="box" placeholder="Dein Text..."></textarea>
 
 <script>
-// URL ?code=ID auslesen
 const params = new URLSearchParams(window.location.search);
-const code = params.get('code');
+const code = params.get("code");
+
+const box = document.getElementById("box");
 
 if(code){
-  const ta = document.getElementById('note');
-  // Text aus LocalStorage laden, falls vorhanden
-  ta.value = localStorage.getItem(code) || "";
-  // Änderungen speichern
-  ta.addEventListener('input', ()=>{ localStorage.setItem(code, ta.value); });
+  box.value = localStorage.getItem(code) || "";
+  box.oninput = () => localStorage.setItem(code, box.value);
 }else{
-  alert("Kein QR-Code erkannt!");
+  box.value = "QR-Code ungültig";
 }
 </script>
+
 </body>
 </html>
+
 
 
