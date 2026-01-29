@@ -8,13 +8,14 @@
 body {
   margin: 0;
   padding: 30px;
-  font-family: Arial;
+  font-family: Arial, sans-serif;
   background: linear-gradient(135deg, #0a001a, #1a0033);
   color: white;
 }
 
 h2 {
   text-align: center;
+  font-size: 2.2em;
   background: linear-gradient(90deg, #ff00cc, #00ccff);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -22,12 +23,13 @@ h2 {
 
 textarea {
   width: 100%;
-  height: 250px;
+  height: 260px;
   margin-top: 20px;
   font-size: 18px;
   border-radius: 15px;
   padding: 15px;
   border: none;
+  outline: none;
 }
 </style>
 </head>
@@ -35,24 +37,41 @@ textarea {
 <body>
 
 <h2>Pit Security System</h2>
-<p>Text bleibt auf DEINEM Handy gespeichert.</p>
+<p>Der Text bleibt auf **diesem Handy** gespeichert.</p>
 
-<textarea id="t" placeholder="Name, bezahlt, Notizen ..."></textarea>
+<textarea id="note" placeholder="Name, bezahlt, Infos ..."></textarea>
 
 <script>
-const id = new URLSearchParams(window.location.search).get("id");
-const key = "pit_" + id;
-const t = document.getElementById("t");
+// 1️⃣ ID aus URL holen
+const params = new URLSearchParams(window.location.search);
+let id = params.get("id");
 
-t.value = localStorage.getItem(key) || "";
+// 2️⃣ Wenn KEINE ID → eigene feste ID erzeugen
+if (!id) {
+  id = localStorage.getItem("pit_default_id");
+  if (!id) {
+    id = "pit_" + Date.now();
+    localStorage.setItem("pit_default_id", id);
+  }
+}
 
-t.oninput = () => {
-  localStorage.setItem(key, t.value);
-};
+// 3️⃣ Speicher-Key
+const key = "pit_security_text_" + id;
+
+const textarea = document.getElementById("note");
+
+// 4️⃣ Gespeicherten Text laden
+textarea.value = localStorage.getItem(key) || "";
+
+// 5️⃣ Beim Tippen speichern
+textarea.addEventListener("input", () => {
+  localStorage.setItem(key, textarea.value);
+});
 </script>
 
 </body>
 </html>
+
 
 
 
