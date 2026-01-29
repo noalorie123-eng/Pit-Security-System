@@ -1,40 +1,26 @@
 <!DOCTYPE html>
-<html lang="de">
+<html>
 <head>
 <meta charset="UTF-8">
-<title>Pit Security System</title>
+<title>TEST</title>
+</head>
+<body>
 
-<style>
-* { box-sizing: border-box; }
+<h1>JS TEST</h1>
 
-body {
-  margin: 0;
-  min-height: 100vh;
-  font-family: 'Segoe UI', Arial, sans-serif;
-  background: radial-gradient(circle at top, #1b0033, #05010a);
-  color: white;
-  text-align: center;
+<button onclick="test()">KLICK MICH</button>
+
+<div id="out"></div>
+
+<script>
+function test() {
+  document.getElementById("out").innerHTML =
+    "<img src='https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=HELLO'>";
 }
+</script>
 
-header {
-  padding: 40px 20px;
-  font-size: 3.5em;
-  font-weight: 900;
-  letter-spacing: 3px;
-  background: linear-gradient(90deg, #ff00cc, #3333ff);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-button {
-  margin-top: 30px;
-  padding: 18px 40px;
-  font-size: 20px;
-  font-weight: bold;
-  border: none;
-  border-radius: 50px;
-  background: linear-gradient(90deg, #ff00cc, #ff6600);
-  co
+</body>
+</html>
 
 
 
