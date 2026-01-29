@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <title>Pit Security System</title>
-
 <style>
 body {
   margin: 0;
@@ -15,7 +14,7 @@ body {
 
 h1 {
   margin: 30px 0;
-  font-size: 3em;
+  font-size: 3.5em;
   background: linear-gradient(90deg, #ff00cc, #00ccff);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -50,41 +49,45 @@ button {
   height: 200px;
   background: white;
   padding: 5px;
+  border-radius: 10px;
+}
+
+.box p {
+  margin: 10px 0;
+  font-weight: bold;
+  font-size: 18px;
 }
 </style>
 </head>
-
 <body>
 
 <h1>Pit Security System</h1>
 
-<button onclick="generate()">QR Codes generieren</button>
+<button onclick="generateQRs()">QR Codes generieren</button>
 
 <div class="qrs" id="qrs"></div>
 
 <script>
-function generate() {
-  const qrs = document.getElementById("qrs");
-  qrs.innerHTML = "";
+function generateQRs() {
+  const container = document.getElementById("qrs");
+  container.innerHTML = "";
 
-  const base =
-    window.location.origin +
-    window.location.pathname.replace("index.html","") +
-    "check.html";
+  const base = window.location.origin + window.location.pathname.replace("index.html","") + "check.html";
+  const labels = [
+    {name:"1 Person", id:"person"},
+    {name:"CREW", id:"crew"},
+    {name:"Family", id:"family"}
+  ];
 
-  ["1 Person", "CREW", "Family"].forEach(label => {
-    const id = Date.now() + Math.random();
-    const link = base + "?id=" + id;
+  labels.forEach(label => {
+    const url = base + "?id=" + label.id;
 
     const div = document.createElement("div");
     div.className = "box";
+    div.innerHTML = `<p>${label.name}</p>
+      <img src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(url)}">`;
 
-    div.innerHTML = `
-      <p>${label}</p>
-      <img src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(link)}">
-    `;
-
-    qrs.appendChild(div);
+    container.appendChild(div);
   });
 }
 </script>
