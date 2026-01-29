@@ -3,18 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <title>Pit Security Check</title>
+
 <style>
 body {
   margin: 0;
   padding: 30px;
-  font-family: Arial, sans-serif;
+  font-family: Arial;
   background: linear-gradient(135deg, #0a001a, #1a0033);
   color: white;
 }
 
 h2 {
   text-align: center;
-  font-size: 2.5em;
   background: linear-gradient(90deg, #ff00cc, #00ccff);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -22,60 +22,33 @@ h2 {
 
 textarea {
   width: 100%;
-  height: 180px;
+  height: 250px;
   margin-top: 20px;
   font-size: 18px;
   border-radius: 15px;
   padding: 15px;
   border: none;
-  outline: none;
-}
-
-label {
-  display: block;
-  margin-top: 20px;
-  font-size: 20px;
-}
-input[type=checkbox] {
-  transform: scale(1.5);
-  margin-right: 10px;
 }
 </style>
 </head>
+
 <body>
 
 <h2>Pit Security System</h2>
-<p>Text & „Bezahlt“-Status bleiben auf DEINEM Handy gespeichert.</p>
+<p>Text bleibt auf DEINEM Handy gespeichert.</p>
 
-<textarea id="note" placeholder="Name, Infos ..."></textarea>
-
-<label><input type="checkbox" id="paid"> Bezahlt</label>
+<textarea id="t" placeholder="Name, bezahlt, Notizen ..."></textarea>
 
 <script>
-// 1️⃣ ID aus URL
-const params = new URLSearchParams(window.location.search);
-let id = params.get("id") || "default";
+const id = new URLSearchParams(window.location.search).get("id");
+const key = "pit_" + id;
+const t = document.getElementById("t");
 
-// 2️⃣ Schlüssel für localStorage
-const textKey = "pit_text_" + id;
-const paidKey = "pit_paid_" + id;
+t.value = localStorage.getItem(key) || "";
 
-// 3️⃣ Elemente
-const textarea = document.getElementById("note");
-const checkbox = document.getElementById("paid");
-
-// 4️⃣ Werte laden
-textarea.value = localStorage.getItem(textKey) || "";
-checkbox.checked = localStorage.getItem(paidKey) === "true";
-
-// 5️⃣ Änderungen speichern
-textarea.addEventListener("input", () => {
-  localStorage.setItem(textKey, textarea.value);
-});
-
-checkbox.addEventListener("change", () => {
-  localStorage.setItem(paidKey, checkbox.checked);
-});
+t.oninput = () => {
+  localStorage.setItem(key, t.value);
+};
 </script>
 
 </body>
