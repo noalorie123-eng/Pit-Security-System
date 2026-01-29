@@ -1,60 +1,41 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
 <meta charset="UTF-8">
-<title>PIT SECURITY SYSTEM</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<title>Pit Security System</title>
 
 <style>
-body { margin:0; font-family:'Segoe UI'; background:linear-gradient(135deg,#0f0c29,#302b63,#24243e); color:white; text-align:center;}
-header{padding:40px; background:linear-gradient(135deg,#ff0055,#ffcc00); font-size:2em; text-shadow:0 0 20px #ff00ff;}
-button{padding:20px 40px; margin:30px; border:none; border-radius:15px; cursor:pointer; background:linear-gradient(135deg,#00ffff,#ff00ff);}
-.qrs{display:flex; justify-content:center; gap:30px; flex-wrap:wrap;}
-.qrbox{background:#111; padding:20px; border-radius:15px;}
-.qrbox p{color:#00ffff; margin:10px 0 0;}
-.qrbox small{color:#aaa; display:block; margin-bottom:10px;}
-</style>
-</head>
-<body>
-<header>PIT SECURITY SYSTEM</header>
+* { box-sizing: border-box; }
 
-<button onclick="generate()">GENERATE 3 QR-CODES</button>
-<div class="qrs" id="qrs"></div>
-
-<script>
-const types=["1 Person","CREW","FAMILY"];
-
-function randomID(){ return Math.random().toString(36).substring(2,8).toUpperCase(); }
-
-function generate(){
-    const container=document.getElementById("qrs");
-    container.innerHTML="";
-    types.forEach(type=>{
-        const id="PIT-"+randomID();
-        const box=document.createElement("div");
-        box.className="qrbox";
-        const qrDiv=document.createElement("div");
-        box.appendChild(qrDiv);
-
-        // Hier erstellen wir QR-Code als Link auf check.html
-      const base = "https://noalorie123.github.io/Pit-Security-System/check.html";
-const finalURL = base + "?code=" + Date.now();
-        new QRCode(qrDiv,{text:url,width:200,height:200,colorDark:"#ffffff",colorLight:"#000000"});
-
-        const typeText=document.createElement("p");
-        typeText.innerText=type;
-        box.appendChild(typeText);
-
-        const idText=document.createElement("small");
-        idText.innerText=id;
-        box.appendChild(idText);
-
-        container.appendChild(box);
-    });
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: radial-gradient(circle at top, #1b0033, #05010a);
+  color: white;
+  text-align: center;
 }
-</script>
-</body>
-</html>
+
+header {
+  padding: 40px 20px;
+  font-size: 3.5em;
+  font-weight: 900;
+  letter-spacing: 3px;
+  background: linear-gradient(90deg, #ff00cc, #3333ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+button {
+  margin-top: 30px;
+  padding: 18px 40px;
+  font-size: 20px;
+  font-weight: bold;
+  border: none;
+  border-radius: 50px;
+  background: linear-gradient(90deg, #ff00cc, #ff6600);
+  co
+
 
 
 
