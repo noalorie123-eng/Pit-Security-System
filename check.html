@@ -2,13 +2,13 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<title>Pit Security System</title>
+<title>Pit Security Check</title>
 <style>
 body {
   margin:0;
   padding:30px;
   font-family:'Arial', sans-serif;
-  background: linear-gradient(135deg,#1a001a,#330033);
+  background: linear-gradient(135deg,#330033,#1a001a);
   color:white;
 }
 h2 {
@@ -43,63 +43,14 @@ input[type=checkbox] {
   margin-right:10px;
 }
 </style>
-
-<!-- Firebase SDK -->
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 </head>
 <body>
 
 <h2>Pit Security System</h2>
-<p style="text-align:center;">Text & „Bezahlt“-Status bleiben für alle Geräte gespeichert.</p>
+<p style="text-align:center;">Hier kannst du Text eintragen und Checkbox anklicken.</p>
 
-<textarea id="note" placeholder="Hier Name, Infos …"></textarea>
-<label><input type="checkbox" id="paid"> Bezahlt</label>
-
-<script>
-// 🔹 Firebase Config – ERSETZE mit DEINEN Daten
-const firebaseConfig = {
-  apiKey: "DEIN_API_KEY",
-  authDomain: "DEIN_PROJECT_ID.firebaseapp.com",
-  databaseURL: "https://DEIN_PROJECT_ID-default-rtdb.firebaseio.com",
-  projectId: "DEIN_PROJECT_ID",
-  storageBucket: "DEIN_PROJECT_ID.appspot.com",
-  messagingSenderId: "1234567890",
-  appId: "1:1234567890:web:abcdefgh"
-};
-
-// 🔹 Firebase initialisieren
-firebase.initializeApp(firebaseConfig);
-const db = firebase.database();
-
-// 🔹 QR-ID aus URL auslesen
-const params = new URLSearchParams(window.location.search);
-const id = params.get("id") || "default";
-
-// 🔹 Firebase Referenz
-const ref = db.ref("qrcodes/" + id);
-
-// 🔹 Elemente
-const textarea = document.getElementById("note");
-const checkbox = document.getElementById("paid");
-
-// 🔹 Vorhandene Daten laden
-ref.get().then(snapshot => {
-  if(snapshot.exists()){
-    const data = snapshot.val();
-    textarea.value = data.text || "";
-    checkbox.checked = data.paid || false;
-  }
-});
-
-// 🔹 Änderungen speichern
-textarea.addEventListener("input", ()=>{
-  ref.update({text:textarea.value, paid:checkbox.checked});
-});
-checkbox.addEventListener("change", ()=>{
-  ref.update({text:textarea.value, paid:checkbox.checked});
-});
-</script>
+<textarea placeholder="Hier Name, Infos …"></textarea>
+<label><input type="checkbox"> Bezahlt</label>
 
 </body>
 </html>
