@@ -1,85 +1,25 @@
-<!DOCTYPE html>
-<html lang="de">
-<head>
-<meta charset="UTF-8">
-<title>Pit Security Check</title>
-<style>
-body {
-  margin: 0;
-  padding: 30px;
-  font-family: Arial, sans-serif;
-  background: linear-gradient(135deg, #0a001a, #1a0033);
-  color: white;
-}
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
 
-h2 {
-  text-align: center;
-  font-size: 2.5em;
-  background: linear-gradient(90deg, #ff00cc, #00ccff);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyBFTczr29TCsM7lzC3j9U55o4JgSUuuYsE",
+  authDomain: "pit-security-system.firebaseapp.com",
+  databaseURL: "https://pit-security-system-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "pit-security-system",
+  storageBucket: "pit-security-system.firebasestorage.app",
+  messagingSenderId: "1092088178109",
+  appId: "1:1092088178109:web:0fd41710b9f189e5ee9ed4",
+  measurementId: "G-1V71RENC2G"
+};
 
-textarea {
-  width: 100%;
-  height: 180px;
-  margin-top: 20px;
-  font-size: 18px;
-  border-radius: 15px;
-  padding: 15px;
-  border: none;
-  outline: none;
-}
-
-label {
-  display: block;
-  margin-top: 20px;
-  font-size: 20px;
-}
-input[type=checkbox] {
-  transform: scale(1.5);
-  margin-right: 10px;
-}
-</style>
-</head>
-<body>
-
-<h2>Pit Security System</h2>
-<p>Text & „Bezahlt“-Status bleiben auf DEINEM Handy gespeichert.</p>
-
-<textarea id="note" placeholder="Name, Infos ..."></textarea>
-
-<label><input type="checkbox" id="paid"> Bezahlt</label>
-
-<script>
-// 1️⃣ ID aus URL
-const params = new URLSearchParams(window.location.search);
-let id = params.get("id") || "default";
-
-// 2️⃣ Schlüssel für localStorage
-const textKey = "pit_text_" + id;
-const paidKey = "pit_paid_" + id;
-
-// 3️⃣ Elemente
-const textarea = document.getElementById("note");
-const checkbox = document.getElementById("paid");
-
-// 4️⃣ Werte laden
-textarea.value = localStorage.getItem(textKey) || "";
-checkbox.checked = localStorage.getItem(paidKey) === "true";
-
-// 5️⃣ Änderungen speichern
-textarea.addEventListener("input", () => {
-  localStorage.setItem(textKey, textarea.value);
-});
-
-checkbox.addEventListener("change", () => {
-  localStorage.setItem(paidKey, checkbox.checked);
-});
-</script>
-
-</body>
-</html>
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
 
 
 
